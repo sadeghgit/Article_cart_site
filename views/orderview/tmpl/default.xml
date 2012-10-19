@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<metadata>
+    <layout title="Order View Default Layout">
+        <message>
+            <![CDATA[ORDERVIEW DEFAULT LAYOUT DESCRIPTION]]>
+        </message>
+    </layout>
+    <state>
+        <name>Order View Report Layout</name>
+        <description>ORDER VIEW LAYOUT DESCRIPTION</description>
+        <url>
+        </url>
+        <params>
+        </params>
+        <advanced>
+        </advanced>
+    </state>
+</metadata>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<metadata>
+    <layout title="Set Order Default Layout">
+        <message>
+            <![CDATA[SETORDER DEFAULT LAYOUT DESCRIPTION]]>
+        </message>
+    </layout>
+    <state>
+        <name>Set Order Report Layout</name>
+        <description>SET ORDER LAYOUT DESCRIPTION</description>
+    </state>
+</metadata>

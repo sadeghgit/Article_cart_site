@@ -1,0 +1,146 @@
+.order_view_table{
+    width:600px ;
+    font-size:15px;
+
+}
+.order_view_title{
+    width: 300px;
+
+
+}
+.order_view_table_title{
+    text-align: center;
+    background: yellowgreen;
+}
+.ready_article{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background: url("../images/tick-icon.png") ;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 20px auto;
+
+}
+.wait_find{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background: url("../images/wait_icon.gif") ;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 20px auto;
+}
+.not_found{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background: url("../images/cross_48.png") ;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 20px auto;
+}
+.order_view_order_table{
+    width:400px ;
+    font-size:15px;
+}
+.order_view_order_field_title{
+    -moz-border-radius: 3px 3px 3px 3px;
+    border: 1px solid #003333;
+    color: #222222;
+    direction: ltr;
+    font-family: Tahoma,Arial,Verdana,sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 3px 5px;
+    text-align: left;
+    vertical-align: middle;
+    width: 300px;
+
+}
+.order_view_order_field_author{
+    -moz-border-radius: 3px 3px 3px 3px;
+    border: 1px solid #003333;
+    color: #222222;
+    direction: ltr;
+    font-family: Tahoma,Arial,Verdana,sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 3px 5px;
+    text-align: left;
+    vertical-align: middle;
+    width: 200px;
+}
+.order_view_order_field_year{
+    -moz-border-radius: 3px 3px 3px 3px;
+    border: 1px solid #003333;
+    color: #222222;
+    direction: ltr;
+    font-family: Tahoma,Arial,Verdana,sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 3px 5px;
+    text-align: left;
+    vertical-align: middle;
+    width: 60px;
+}
+.order_view_order_field_page{
+    -moz-border-radius: 3px 3px 3px 3px;
+    border: 1px solid #003333;
+    color: #222222;
+    direction: ltr;
+    font-family: Tahoma,Arial,Verdana,sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 3px 5px;
+    text-align: left;
+    vertical-align: middle;
+    width: 50px;
+}
+.note_label{
+    color:red;
+    text-indent:5px;
+}
+.form_massage{
+    background: #ededed;
+    color: #41f322;
+    font-size: 15px;
+    border: 1px solid #39AD85;
+    width: 400px;
+    text-align: center;
+    font-size: 17px;
+    text-align: center;
+    font-weight: 700;
+}
+.form_massage_error{
+    font-family:Verdana, Verdana, Geneva, sans-serif;
+    font-size:14px;
+    border: 1px solid #39AD85;
+    color:#d52601;
+    bgcolor: #FFFFDD;
+    width: 600px;
+    font-size: 17px;
+    text-align: center;
+    font-weight: 700;
+
+
+}
+.form_massage_payment{
+    background: #ededed;
+    color: #009200;
+    border: 1px solid #39AD85;
+    font-size: 15px;
+    width: 600px;
+    font-size: 17px;
+    text-align: center;
+    font-weight: 700;
+}
+.order_form_error_message{
+    font-family:Verdana, Verdana, Geneva, sans-serif;
+    font-size:14px;
+    border: 1px solid #39AD85;
+    color:#d52601;
+    bgcolor: #FFFFDD;
+    width: 400px;
+    font-weight: 700;
+}

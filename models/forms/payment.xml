@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+
+              <field name="id" type="text" default="0" label="COM_ARTICLE_CART_FORM_LBL_PAYMENT_ID"
+                    readonly="true" class="readonly"
+                    description="JGLOBAL_FIELD_ID_DESC" /> 
+
+       <field name="created_by" type="createdby" default="" 
+            label="COM_ARTICLE_CART_FORM_LBL_PAYMENT_CREATED_BY"
+            description="COM_ARTICLE_CART_FORM_DESC_PAYMENT_CREATED_BY"  /> 
+
+       <field name="receipt_no" type="text" size="40" class="inputbox"
+                
+            label="COM_ARTICLE_CART_FORM_LBL_PAYMENT_RECEIPT_NO"
+            description="COM_ARTICLE_CART_FORM_DESC_PAYMENT_RECEIPT_NO" 
+                
+                
+                
+                filter="safehtml" /> 
+
+       <field name="reference_no" type="text" size="40" class="inputbox"
+                
+            label="COM_ARTICLE_CART_FORM_LBL_PAYMENT_REFERENCE_NO"
+            description="COM_ARTICLE_CART_FORM_DESC_PAYMENT_REFERENCE_NO" 
+                
+                
+                
+                filter="safehtml" /> 
+
+       <field name="pay_date" type="calendar" class="inputbox"
+                 required="true" 
+                
+                 default="0000-00-00" 
+                
+            label="COM_ARTICLE_CART_FORM_LBL_PAYMENT_PAY_DATE"
+            description="COM_ARTICLE_CART_FORM_DESC_PAYMENT_PAY_DATE" 
+                filter="safehtml" /> 
+
+       <field name="pay_time" type="text" size="40" class="inputbox"
+                
+            label="COM_ARTICLE_CART_FORM_LBL_PAYMENT_PAY_TIME"
+            description="COM_ARTICLE_CART_FORM_DESC_PAYMENT_PAY_TIME" 
+                 default="00:00:00" 
+                
+                
+                filter="safehtml" /> 
+
+       <field name="amount" type="text" size="40" class="inputbox"
+                
+            label="COM_ARTICLE_CART_FORM_LBL_PAYMENT_AMOUNT"
+            description="COM_ARTICLE_CART_FORM_DESC_PAYMENT_AMOUNT" 
+                
+                
+                
+                filter="safehtml" /> 
+
+       <field name="bank" type="text" size="40" class="inputbox"
+                
+            label="COM_ARTICLE_CART_FORM_LBL_PAYMENT_BANK"
+            description="COM_ARTICLE_CART_FORM_DESC_PAYMENT_BANK" 
+                
+                
+                
+                filter="safehtml" /> 
+
+       <field name="claim" type="text" size="40" class="inputbox"
+                
+            label="COM_ARTICLE_CART_FORM_LBL_PAYMENT_CLAIM"
+            description="COM_ARTICLE_CART_FORM_DESC_PAYMENT_CLAIM" 
+                
+                
+                
+                filter="safehtml" /> 
+
+         <field
+                name="state"
+                type="list"
+                label="JSTATUS"
+                description="JFIELD_PUBLISHED_DESC"
+                class="inputbox"
+                size="1"
+                default="1">
+                <option value="1">JPUBLISHED</option>
+                <option value="0">JUNPUBLISHED</option>
+            </field> 
+
+                        <field name="checked_out" type="hidden" filter="unset" />
+                <field name="checked_out_time" type="hidden" filter="unset" />
+
+	</fieldset>
+
+</form>
