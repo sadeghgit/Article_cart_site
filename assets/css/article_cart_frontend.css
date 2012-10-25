@@ -100,6 +100,7 @@
 .note_label{
     color:red;
     text-indent:5px;
+    font-size: x-small;
 }
 .form_massage{
     background: #ededed;
@@ -143,4 +144,7 @@
     bgcolor: #FFFFDD;
     width: 400px;
     font-weight: 700;
+}
+.payment_table_row2{
+    width: 3000px;
 }

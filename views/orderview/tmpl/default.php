@@ -29,8 +29,7 @@ if(isset($_POST['file_name'])){
 ?>
 
 
-<table class="order_view_table" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
-       xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<table class="order_view_table">
         <tr>
             <th colspan="6" class="order_view_table_title">
                 <?php echo JText::_('COM_ARTICLE_CART_TITLE_ORDERS') ;?></th>
@@ -58,29 +57,30 @@ if(isset($_POST['file_name'])){
              </form>
         </tr>
         <?php } ?>
+</table>
+
+<table class="order_view_table">
     <tr >
-        <td colspan="6" height="20px"></td>
-
-    </tr>
-
+        <td colspan="8" height="20px"></td>
+       </tr>
         <form name="payment" method="POST">
         <tr>
-            <th colspan="6" class="order_view_table_title"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_TITLE') ;?></th>
+            <th colspan="8" class="order_view_table_title"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_TITLE') ;?></th>
         </tr>
         <tr>
-            <th><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_DATE') ;?></th>
-            <td colspan="5"><input class="textEnter" type="text" id="inputField" name="payDate" maxlength="15" readonly="readonly" size="10" onmousedown="displayDatePicker('payDate');" /></br>
+            <th ><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_DATE') ;?>:</th>
+            <td colspan="7" class="payment_table_row2"><input class="textEnter" type="text" id="inputField" name="payDate" maxlength="15" readonly="readonly" size="10" onmousedown="displayDatePicker('payDate');" />
                 <label class="note_label"> <?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_NOTE_DATE') ;?></label>
             </td>
         </tr>
         <tr>
-            <th><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_PAY_TIME') ;?></th>
-            <td colspan="5"><input name="payTime" type="text"  size="10"></br>
+            <th><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_PAY_TIME') ;?>:</th>
+            <td colspan="7"><input name="payTime" type="text"  size="10" value="hh:mm:ss">
             <label class="note_label"> <?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_NOTE_TIME') ;?></label></td>
         </tr>
         <tr>
-            <th><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_AMOUNT') ;?></th>
-            <td colspan="5">
+            <th ><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_AMOUNT') ;?>:</th>
+            <td colspan="7">
                 <select name="amount">
                     <option value="0" selected="selected"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_SELECT_AMOUNT') ;?></option>
                     <option value="250000">250,000</option>
@@ -96,8 +96,8 @@ if(isset($_POST['file_name'])){
             </td>
         </tr>
         <tr>
-            <th><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_BANK') ;?></th>
-            <td colspan="5">
+            <th ><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_BANK') ;?>:</th>
+            <td colspan="7">
                 <select name="bank">
                     <option value="non" selected="selected"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_SELECT_BANK') ;?></option>
                     <option value="Saman"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_SAMAN') ;?></option>
@@ -105,12 +105,17 @@ if(isset($_POST['file_name'])){
                 </select>
             </td>
         </tr>
+            <tr>
+                <th><?php echo JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE'); ?>:</th>
+                <td><?php echo $this->balance ?></td>
+                <td colspan="5"><input name="useBalance" type="checkbox" <?php echo ($this->balance>=250000)? '' : 'disabled="disabled"' ?>"><?php echo JText::_('COM_ARTICLE_CART_PAYMENT_USE_BALANCE'); ?></td>
+            </tr>
         <tr>
-            <td colspan="6"><input name="submit" type="submit" value="<?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_CHECK');?>"></td>
+            <td colspan="7"><input name="submit" type="submit" value="<?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_CHECK');?>"></td>
         </tr>
         </form>
     <tr>
-        <td colspan="6"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_NOTE') ;?></td>
+        <td colspan="7"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_NOTE') ;?></td>
     </tr>
     </table>
 

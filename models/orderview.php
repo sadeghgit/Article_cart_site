@@ -29,10 +29,13 @@ class Article_cartModelOrderView extends JModelList {
 
     //display orders
     function orderDisplay() {
-        global $title,$author,$year,$page,$status,$pay_id,$download;
+
         $user=JFactory::getUser();
+        //fetch current user id
         $user_id=$user->id;
+        //connect to the database
         $db=JFactory::getDBO();
+        // new object of query
         $query = $db->getQuery(true);
         // Select all fields
         $query->select('*');
@@ -40,24 +43,41 @@ class Article_cartModelOrderView extends JModelList {
         $query->from('`#__article_cart_orders`');
         //where create_by user
         $query->where("`created_by`='".$user_id."'");
-
+        //run the query
         $db->setQuery($query);
+        // check the query result
         if(!$resultquery=$db->query())  echo'no result found';
-        else    $items = ($items = $db->loadObjectList())?$items:array();
+        else    $items = ($items = $db->loadObjectList())?$items:array();//create a array of found record(s)
 
+        //return the array to view.html.php
         return $items;
     }//end orderview
 
 
+
     //check for payment data
     function checkPayment(){
-            global $refNo,$recNo,$payTime,$amount,$bank,$msgSucc;
+        global $payTime,$amount,$bank,$msgSucc;
+        if(isset($_POST['useBalance'])){
+           $amount = $this->userBalance();
+            $user=JFactory::getUser();
+            //fetch current user id
+            $pay_id=$user->id;
+            $this->setPayment($pay_id,$amount);
+        }else{
+            //variable to include html script
             $msgSucc="";
             $msgSucc .="<table>";
-            if (isset($_POST['amount'])){
+            //check submit button clicked
+            if (isset($_POST['payDate'])){
+                //receive the fields data and a safe manner
                 $payDate=mysql_real_escape_string($_POST['payDate']);
+                //convert date format received from date picker to a format acceptable for database
+                //split the date to three variables
                 list($m,$d,$y)=explode('/',$payDate);
+                //convert it to date and time format
                 $mk=mktime(0,0,0,$m,$d,$y);
+                //change the format of datetime string
                 $payDate=strftime('%Y-%m-%d',$mk);
                 $payTime=mysql_real_escape_string($_POST['payTime']);
                 $amount=mysql_real_escape_string($_POST['amount']);
@@ -77,67 +97,115 @@ class Article_cartModelOrderView extends JModelList {
                 if(!$resultquery=$db->query())  echo'no result found';
                 else {
                     $items = ($items = $db->loadObjectList())?$items:array();
+                    // count the number of item fetch from database
                     $m=count($items);
                     if($m==1){
+                    //create new object of data
                     $data=$items[$m-1];
+                    //get the field id from new object
                     $pay_id=$data->id;
+                        // send the Payment id and the amount to the setpayment function
                     $this->setPayment($pay_id,$amount);
                     }else{
+                        //end of html script
                        echo $msgSucc .="<tr><td class=\"form_massage_error\">". JText::_('COM_ARTICLE_CART_PAYMENT_DETAIL_ERROR')."</td></tr></table>";
                     }
                 }
             }
+        }
     }
 
-
+    //update the payment table for the claimed payment
     function setPayment($pay_id,$amount){
-       global $msgSucc,$noRecord,$balance;
-        $msgSucc=" ";
-        $msgSucc ="<table>";
+       global $noOrder;
+        //the default price of each item would be 250000, there this shows the payment is for how many items
         $limit=$amount/250000;
         $user=JFactory::getUser();
         $user_id=$user->id;
         $db=JFactory::getDBO();
         $query=$db->getQuery(true);
+        //update query for the order table set the payment id for the order to make download button active
         $query->update('`#__article_cart_orders`');
         $query->set("`pay_id`='".$pay_id."'");
         $query->where("`created_by`='".$user_id."' and `pay_id`=0 and `status`=1 LIMIT ".$limit);
         $db->setQuery($query);
         if(!$resultquery=$db->query())  echo'update decline';
         else {
+            // the number of affected rows will help to find out the amount has set for how many ordered item and
+            // whether is any balance
+            $noOrder= mysql_affected_rows();
             //echo 'payment saved';
            // $query->update('`#__article_cart_payments`');
            // $query->set("`claim`='1'");
            // $query->where("`id`='".$pay_id."'");
+            //needs to update the order to be omited from unclaimed payments
             $query="UPDATE `#__article_cart_payments` SET `claim`=1 WHERE `id`='".$pay_id."'";
             $db->setQuery($query);
-            $noRecord= mysql_affected_rows();
             if(!$resultquery=$db->query())  echo'claim decline';
              else{
-               $msgSucc .="<tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_CLAIM')."</td></tr>";
-                 $balance=($limit-$noRecord)*250000;
-                 if ($balance>0){
-                     $user=JFactory::getUser();
-                     $user_id=$user->id;
-                     $db=JFactory::getDBO();
-                     $query=$db->getQuery(true);
-                     $query->update('#__users');
-                     $query->set("`account_balance`='".$balance."'");
-                     $query->where("`id`='".$user_id."'");
-                     $db->setQuery($query);
-                     if(!$resultquery=$db->query()) echo 'error in update';
-                     else  $msgSucc .="<tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE').$balance.JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_C')."</td></tr></table>";
-                 }
-                 echo $msgSucc .="</table>";
+               echo "<table><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_CLAIM')."</td></tr></table>";
+                 //calculate the balance of payment
+                 $this->setBalance($limit,$noOrder);
              }
 
 
         }
 
-
     }
 
+    function userBalance(){
 
+        $user=JFactory::getUser();
+        //fetch current user id
+        $user_id=$user->id;
+        //connect to the database
+        $db=JFactory::getDBO();
+        // new object of query
+        $query = $db->getQuery(true);
+
+        $query->select('`account_balance`');
+        // From the __article_cart_orders table
+        $query->from('`#__users`');
+        //where create_by user
+        $query->where("`id`='".$user_id."'");
+        //run the query
+        $db->setQuery($query);
+        // check the query result
+        if(!$resultquery=$db->query())  echo'no result found';
+        else {
+            $items = ($items = $db->loadObjectList())?$items:array();
+            // count the number of item fetch from database
+            $m=count($items);
+            if($m==1){
+                //create new object of data
+                $data=$items[$m-1];
+                //get the field id from new object
+                $balance=$data->account_balance;
+            }
+        }
+
+        return $balance;
+    }
+
+    function setBalance($limit,$noOrder){
+        $balance=($limit-$noOrder)*250000;
+        if ($balance>0){
+            $user=JFactory::getUser();
+            $user_id=$user->id;
+            $db=JFactory::getDBO();
+            $query=$db->getQuery(true);
+            $userBalance =$this->userBalance();
+            (isset($_POST['useBalance'])) ?$balance=$balance :$balance=$balance+$userBalance;
+
+            //updating the user table for the new balance
+            $query->update('#__users');
+            $query->set("`account_balance`='".$balance."'");
+            $query->where("`id`='".$user_id."'");
+            $db->setQuery($query);
+            if(!$resultquery=$db->query()) echo 'error in update';
+            else echo "<table><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE').$balance.JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_C')."</td></tr></table>";
+        }
+    }
 
 
     /**
