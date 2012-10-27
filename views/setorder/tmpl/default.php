@@ -4,23 +4,22 @@ defined('_JEXEC') or die('restricted access');
 $document = JFactory::getDocument();
 $document->addStyleSheet('components/com_article_cart/assets/css/article_cart_frontend.css');
 ?>
+<p><strong><?php echo JText::_('COM_ARTICLE_CART_ORDERS_CHOOSE');?></strong> </br>
+<label class="note_label">* </label><?php echo JText::_('COM_ARTICLE_CART_ORDERS_REQUIRE');?> </p>
 <form name="order_form" method="POST">
 <table class="order_view_order_table">
     <tr>
         <th colspan="2" class="order_view_table_title" ><?php echo JText::_('COM_ARTICLE_CART_ORDERS_TABLE_TITLE');?></th>
     </tr>
     <tr>
-        <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_TITLE');?>:</th>
-        <td><input name="title" type="text" class="order_view_order_field_title" id="title" />
-         <label class="note_label">*</label>
-        </td>
+        <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_TITLE');?>:  <label class="note_label">*</label></th>
+        <td><input name="title" type="text" class="order_view_order_field_title" value="<?php echo $this->title;?>" /></td>
     </tr>
     <tr>
-        <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_AUTHOR');?>:</th>
-        <td><input name="author" type="text" class="order_view_order_field_author" id="author"/>
-         <label class="note_label">*</label></td>
+        <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_AUTHOR');?>: <label class="note_label">*</label></th>
+        <td><input name="author" type="text" class="order_view_order_field_author" value="<?php echo $this->author;?>"/></td>
     </tr>
-    <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_YEAR');?>:</th>
+    <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_YEAR');?>: <label class="note_label">*</label></th>
     <td>
         <select name="year"  class="order_view_order_field_year" >
             <option value="non"><?php echo JText::_('COM_ARTICLE_CART_ORDERS_YEAR_SELECT'); ?></option>
@@ -139,16 +138,31 @@ $document->addStyleSheet('components/com_article_cart/assets/css/article_cart_fr
             <option value="1900">1900</option>
         </select>
 
-     <label class="note_label">*</label></td>
+     </td>
     <tr>
-        <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_PAGE');?>:</th>
-        <td><input name="page" type="text" class="order_view_order_field_page" id="page"/></td>
+        <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_PAGE');?>: <label class="note_label">*</label></th>
+        <td><?php echo JText::_('COM_ARTICLE_CART_ORDERS_FROM');?> <input name="pageStart" type="text" class="order_view_order_field_page" />
+       <?php echo JText::_('COM_ARTICLE_CART_ORDERS_TO');?> <input name="pageEnd" type="text" class="order_view_order_field_page" />
+       </td>
     </tr>
-    <td><input name="submit" type="submit" value="<?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_CHECK');?>"/></td>
+    <td colspan="2"><input class="Submit_button" name="submitForm" type="submit" value="<?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_CHECK');?>"/></td>
 </table>
 </form>
 
-
+<table class="order_view_order_link_table">
+    <tr>
+        <th colspan="2" class="order_view_table_title" ><?php echo JText::_('COM_ARTICLE_CART_ORDERS_TABLE_LINK_TITLE');?></th>
+    </tr>
+    <form name="linkForm" method="post">
+    <tr>
+        <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_LINK'); ?> <label class="note_label">*</label></th>
+        <td ><input class="order_view_order_field_title" type="text" name="link"></td>
+    </tr>
+    <tr>
+        <td><input class="Submit_button" name="submitLink" type="submit" value="<?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_CHECK');?>" </td>
+    </tr>
+    </form>
+</table>
 
 
 

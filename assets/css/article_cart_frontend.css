@@ -1,10 +1,11 @@
 .order_view_table{
-    width:600px ;
+    width:700px ;
     font-size:15px;
 
 }
 .order_view_title{
     width: 300px;
+    text-align: center;
 
 
 }
@@ -41,8 +42,13 @@
     background-size: 20px auto;
 }
 .order_view_order_table{
-    width:400px ;
+    width:700px ;
     font-size:15px;
+}
+.order_view_order_link_table{
+    width:700px ;
+    font-size:15px;
+    margin-top: 20px;
 }
 .order_view_order_field_title{
     -moz-border-radius: 3px 3px 3px 3px;
@@ -55,7 +61,7 @@
     padding: 3px 5px;
     text-align: left;
     vertical-align: middle;
-    width: 300px;
+    width: 600px;
 
 }
 .order_view_order_field_author{
@@ -82,7 +88,7 @@
     padding: 3px 5px;
     text-align: left;
     vertical-align: middle;
-    width: 60px;
+    width: 114px;
 }
 .order_view_order_field_page{
     -moz-border-radius: 3px 3px 3px 3px;
@@ -95,7 +101,7 @@
     padding: 3px 5px;
     text-align: left;
     vertical-align: middle;
-    width: 50px;
+    width: 30px;
 }
 .note_label{
     color:red;
@@ -107,7 +113,7 @@
     color: #41f322;
     font-size: 15px;
     border: 1px solid #39AD85;
-    width: 400px;
+    width: 700px;
     text-align: center;
     font-size: 17px;
     text-align: center;
@@ -119,7 +125,7 @@
     border: 1px solid #39AD85;
     color:#d52601;
     bgcolor: #FFFFDD;
-    width: 600px;
+    width: 700px;
     font-size: 17px;
     text-align: center;
     font-weight: 700;
@@ -131,20 +137,27 @@
     color: #009200;
     border: 1px solid #39AD85;
     font-size: 15px;
-    width: 600px;
+    width: 700px;
     font-size: 17px;
     text-align: center;
     font-weight: 700;
 }
+.order_form_error_message_border{
+    border: none;
+}
 .order_form_error_message{
     font-family:Verdana, Verdana, Geneva, sans-serif;
     font-size:14px;
-    border: 1px solid #39AD85;
+    border: none;
     color:#d52601;
     bgcolor: #FFFFDD;
-    width: 400px;
+    width: 700px;
     font-weight: 700;
 }
 .payment_table_row2{
     width: 3000px;
+}
+.Submit_button{
+    padding-left: 15px;
+    padding-right: 15px;
 }

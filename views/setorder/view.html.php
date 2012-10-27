@@ -13,11 +13,11 @@ class Article_cartViewSetOrder extends Jview{
 
         $model=&$this->getModel();
         $readForm =$model->readForm();
-        //list($title,$author,$year,$page)=$readForm;
-        //$this->assignRef('title',$title);
-       // $this->assignRef('author',$author);
+        list($title,$author,$year,$page)=$readForm;
+        $this->assignRef('title',$title);
+        $this->assignRef('author',$author);
         //$this->assignRef('year',$year);
-       // $this->assignRef('page',$page);
+        //$this->assignRef('page',$page);
 
 
 

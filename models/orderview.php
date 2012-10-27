@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
 
+
 /**
  * Methods supporting a list of Article_cart records.
  */
@@ -53,7 +54,22 @@ class Article_cartModelOrderView extends JModelList {
         return $items;
     }//end orderview
 
-
+    function deleteOrder(){
+        if(isset($_POST['delete'])){
+        $order_id=$_POST['delete'];
+        //connect to the database
+        $db=JFactory::getDBO();
+        // new object of query
+        $query = $db->getQuery(true);
+        $query->delete('`#__article_cart_orders`');
+        //where create_by user
+        $query->where("`id`='".$order_id."'");
+        //run the query
+        $db->setQuery($query);
+        // check the query result
+        if(!$resultquery=$db->query())  echo'no result found';
+        }
+    }
 
     //check for payment data
     function checkPayment(){
@@ -119,7 +135,8 @@ class Article_cartModelOrderView extends JModelList {
     function setPayment($pay_id,$amount){
        global $noOrder;
         //the default price of each item would be 250000, there this shows the payment is for how many items
-        $limit=$amount/250000;
+        $limit=(int)($amount/250000);
+        $floatLimit=($amount/250000);
         $user=JFactory::getUser();
         $user_id=$user->id;
         $db=JFactory::getDBO();
@@ -145,10 +162,34 @@ class Article_cartModelOrderView extends JModelList {
              else{
                echo "<table><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_CLAIM')."</td></tr></table>";
                  //calculate the balance of payment
-                 $this->setBalance($limit,$noOrder);
+                 $this->setBalance($floatLimit,$noOrder);
+                 if(!isset($_POST['useBalance'])){ $this->setBonus($amount);}
+
              }
 
 
+        }
+
+    }
+
+
+    function download(){
+
+        if(isset($_POST['download'])){
+            $filename = $_POST['file_name'];
+            $file = './articles/'.$filename;
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename='.basename($file));
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file));
+            ob_clean();
+            flush();
+            readfile($file);
+            exit;
         }
 
     }
@@ -187,8 +228,10 @@ class Article_cartModelOrderView extends JModelList {
         return $balance;
     }
 
-    function setBalance($limit,$noOrder){
-        $balance=($limit-$noOrder)*250000;
+
+    function setBalance($floatLimit,$noOrder){
+        $balance=($floatLimit-$noOrder)*250000;
+        $balance2=($floatLimit-$noOrder)*250000;
         if ($balance>0){
             $user=JFactory::getUser();
             $user_id=$user->id;
@@ -203,7 +246,27 @@ class Article_cartModelOrderView extends JModelList {
             $query->where("`id`='".$user_id."'");
             $db->setQuery($query);
             if(!$resultquery=$db->query()) echo 'error in update';
-            else echo "<table><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE').$balance.JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_C')."</td></tr></table>";
+            else echo "<table><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_C').' '.$balance2.JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_D')."</td></tr></table>";
+        }
+    }
+
+    function setBonus($amount){
+        $bonus=$amount*0.4;
+        if ($bonus>0){
+            $user=JFactory::getUser();
+            $user_id=$user->id;
+            $db=JFactory::getDBO();
+            $query=$db->getQuery(true);
+            $userBalance =$this->userBalance();
+            $balance= $userBalance + $bonus;
+
+            //updating the user table for the new balance
+            $query->update('#__users');
+            $query->set("`account_balance`='".$balance."'");
+            $query->where("`id`='".$user_id."'");
+            $db->setQuery($query);
+            if(!$resultquery=$db->query()) echo 'error in update';
+            else echo "<table><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_A').' '.$bonus.JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_B')."</td></tr></table>";
         }
     }
 
