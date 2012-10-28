@@ -13,6 +13,9 @@
     text-align: center;
     background: yellowgreen;
 }
+.payment_th{
+    width: 80px
+}
 .ready_article{
     background-attachment: scroll;
     background-clip: border-box;

@@ -46,10 +46,13 @@ $document->addScript(JURI::base(true). $timeentry);
              </form>
         </tr>
         <?php } ?>
+    <tr >
+        <td colspan="8" height="20px"> </td>
+    </tr>
 </table>
 
 <table class="order_view_table">
-    <tr >
+        <tr >
         <td colspan="8" height="20px">  <label class="note_label">* </label><?php echo JText::_('COM_ARTICLE_CART_ORDERS_REQUIRE');?></td>
        </tr>
         <form name="payment" method="POST">
@@ -57,14 +60,15 @@ $document->addScript(JURI::base(true). $timeentry);
             <th colspan="8" class="order_view_table_title"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_TITLE') ;?></th>
         </tr>
         <tr>
-            <th ><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_DATE') ;?>: <label class="note_label">*</label> </th>
+            <th class="payment_th"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_DATE') ;?>: <label class="note_label">*</label> </th>
             <td colspan="7" class="payment_table_row2"><input class="textEnter" type="text" id="inputField" name="payDate" maxlength="15" readonly="readonly" size="10" onmousedown="displayDatePicker('payDate');" />
                 <label class="note_label"> <?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_NOTE_DATE') ;?></label>
             </td>
         </tr>
         <tr>
             <th><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_PAY_TIME') ;?>: <label class="note_label">*</label> </th>
-            <td colspan="7"><input type="text" name="payTime" id="payTime" size="10" >
+            <td colspan="7"><input type="text" name="show24" id="show24" size="10" >
+                <input type="hidden" name="payTime" id="payTime" size="10" onclick="pTime()" >
             <label class="note_label"> <?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_NOTE_TIME') ;?></label></td>
         </tr>
         <tr>
@@ -100,7 +104,7 @@ $document->addScript(JURI::base(true). $timeentry);
                 <td colspan="5"><input name="useBalance" type="checkbox" <?php echo ($this->balance>=250000)? '' : 'disabled="disabled"' ?>"><?php echo JText::_('COM_ARTICLE_CART_PAYMENT_USE_BALANCE'); ?></td>
             </tr>
         <tr>
-            <td colspan="7"><input class="Submit_button" name="submit" type="submit" value="<?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_CHECK');?>"></td>
+            <td colspan="7"><input class="Submit_button" name="submit" type="submit" onclick="pTime()" value="<?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_CHECK');?>"></td>
         </tr>
         </form>
     <tr>
@@ -112,7 +116,11 @@ $document->addScript(JURI::base(true). $timeentry);
 <script type="text/javascript">
     $(function () {
         $('#show24').timeEntry({show24Hours: true,showSeconds: true});
+
     });
+    function pTime(){
+        document.getElementById('payTime').value= document.getElementById('show24').value;
+    }
 </script>
 
 

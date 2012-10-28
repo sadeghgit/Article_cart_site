@@ -12,7 +12,7 @@ $document->addStyleSheet('components/com_article_cart/assets/css/article_cart_fr
         <th colspan="2" class="order_view_table_title" ><?php echo JText::_('COM_ARTICLE_CART_ORDERS_TABLE_TITLE');?></th>
     </tr>
     <tr>
-        <th><?php echo JText::_('COM_ARTICLE_CART_ORDERS_TITLE');?>:  <label class="note_label">*</label></th>
+        <th class="order_view_th"><?php echo JText::_('COM_ARTICLE_CART_ORDERS_TITLE');?>:  <label class="note_label">*</label></th>
         <td><input name="title" type="text" class="order_view_order_field_title" value="<?php echo $this->title;?>" /></td>
     </tr>
     <tr>
