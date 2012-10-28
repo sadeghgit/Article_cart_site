@@ -121,7 +121,7 @@ class Article_cartModelSetOrder extends JModelList{
             $msgSucc .="<tr><td class=\"form_massage_error\" >". JText::_('FAILED SUBMIT')."</td></tr>";
             return false;
         }else{
-            $msgSucc .="<tr><td  class=\"form_massage\" >". JText::_('COM_ARTICLE_CART_ORDERS_SUCCESS_SUBMIT')."</td></tr></table>";
+            $msgSucc .="<tr><td  class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_ORDERS_SUCCESS_SUBMIT')."</td></tr></table>";
             }
         echo $msgSucc;
     }

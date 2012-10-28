@@ -21,7 +21,7 @@ class article_cartViewOrderView extends Jview{
         $userBalance =$model->userBalance();
         $this->assignRef('balance',$userBalance);
         //call for cjecjPayment function
-        $checkPayment=$model->checkPayment();
+        $model->validate();
         $model->download();
         $model->deleteOrder();
         $orderView = $model->orderDisplay();

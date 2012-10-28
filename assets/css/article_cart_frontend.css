@@ -123,27 +123,24 @@
     font-weight: 700;
 }
 .form_massage_error{
-    font-family:Verdana, Verdana, Geneva, sans-serif;
-    font-size:14px;
-    border: 1px solid #39AD85;
-    color:#d52601;
-    bgcolor: #FFFFDD;
+    background: url("../images/Warning.png") no-repeat scroll right center transparent;
+    border: medium none;
+    font-size: 14px;
+    height: 35px;
+    text-align: right;
+    text-indent: 35px;
     width: 700px;
-    font-size: 17px;
-    text-align: center;
-    font-weight: 700;
 
 
 }
 .form_massage_payment{
-    background: #ededed;
-    color: #009200;
-    border: 1px solid #39AD85;
-    font-size: 15px;
+    background: url("../images/info.png") no-repeat scroll right center transparent;
+    border: medium none;
+    font-size: 14px;
+    height: 35px;
+    text-align: right;
+    text-indent: 35px;
     width: 700px;
-    font-size: 17px;
-    text-align: center;
-    font-weight: 700;
 }
 .order_form_error_message_border{
     border: none;

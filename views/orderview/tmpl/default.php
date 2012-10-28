@@ -92,7 +92,7 @@ $document->addScript(JURI::base(true). $timeentry);
             <th ><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_BANK') ;?>: <label class="note_label">*</label> </th>
             <td colspan="7">
                 <select name="bank">
-                    <option value="non" selected="selected"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_SELECT_BANK') ;?></option>
+                    <option value="none" selected="selected"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_SELECT_BANK') ;?></option>
                     <option value="Saman"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_SAMAN') ;?></option>
                     <option value="Melli"><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_MELLI') ;?></option>
                 </select>
@@ -100,11 +100,11 @@ $document->addScript(JURI::base(true). $timeentry);
         </tr>
             <tr>
                 <th><?php echo JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE'); ?>:</th>
-                <td><?php echo $this->balance ?><?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_RIYAL'); ?></td>
+                <td><?php echo number_format($this->balance) ?> <?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_RIYAL'); ?></td>
                 <td colspan="5"><input name="useBalance" type="checkbox" <?php echo ($this->balance>=250000)? '' : 'disabled="disabled"' ?>"><?php echo JText::_('COM_ARTICLE_CART_PAYMENT_USE_BALANCE'); ?></td>
             </tr>
         <tr>
-            <td colspan="7"><input class="Submit_button" name="submit" type="submit" onclick="pTime()" value="<?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_CHECK');?>"></td>
+            <td colspan="7"><input class="Submit_button" name="submitButton" type="submit" onclick="pTime()" value="<?php echo JText::_('COM_ARTICLE_CART_PAYMENTS_CHECK');?>"></td>
         </tr>
         </form>
     <tr>
@@ -121,6 +121,7 @@ $document->addScript(JURI::base(true). $timeentry);
     function pTime(){
         document.getElementById('payTime').value= document.getElementById('show24').value;
     }
+
 </script>
 
 

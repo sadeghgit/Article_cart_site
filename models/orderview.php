@@ -72,7 +72,7 @@ class Article_cartModelOrderView extends JModelList {
     }
 
     //check for payment data
-    function checkPayment(){
+    function checkPayment($payDate,$payTime,$amount,$bank){
         global $payTime,$amount,$bank,$msgSucc;
         if(isset($_POST['useBalance'])){
            $amount = $this->userBalance();
@@ -85,19 +85,19 @@ class Article_cartModelOrderView extends JModelList {
             $msgSucc="";
             $msgSucc .="<table>";
             //check submit button clicked
-            if (isset($_POST['payDate'])){
+            if (isset($_POST['payTime'])){
                 //receive the fields data and a safe manner
-                $payDate=mysql_real_escape_string($_POST['payDate']);
+               // $payDate=mysql_real_escape_string($_POST['payDate']);
                 //convert date format received from date picker to a format acceptable for database
                 //split the date to three variables
                 list($m,$d,$y)=explode('/',$payDate);
                 //convert it to date and time format
                 $mk=mktime(0,0,0,$m,$d,$y);
                 //change the format of datetime string
-                $payDate=strftime('%Y-%m-%d',$mk);
-                $payTime=mysql_real_escape_string($_POST['payTime']);
-                $amount=mysql_real_escape_string($_POST['amount']);
-                $bank=mysql_real_escape_string($_POST['bank']);
+                //$payDate=strftime('%Y-%m-%d',$mk);
+                //$payTime=mysql_real_escape_string($_POST['payTime']);
+               // $amount=mysql_real_escape_string($_POST['amount']);
+               // $bank=mysql_real_escape_string($_POST['bank']);
 
                 $db=JFactory::getDBO();
                 $query = $db->getQuery(true);
@@ -131,6 +131,55 @@ class Article_cartModelOrderView extends JModelList {
         }
     }
 
+
+    function validate(){
+        if(isset($_POST['submitButton']) && isset($_POST['useBalance'])){
+            $amount = $this->userBalance();
+            $user=JFactory::getUser();
+            //fetch current user id
+            $pay_id=$user->id;
+            $this->setPayment($pay_id,$amount);
+        }elseif(isset($_POST['submitButton'])){
+        //receive the fields data and a safe manner
+        $payDate=mysql_real_escape_string($_POST['payDate']);
+        $payTime=mysql_real_escape_string($_POST['payTime']);
+        $amount=mysql_real_escape_string($_POST['amount']);
+        $bank=mysql_real_escape_string($_POST['bank']);
+        // they must be change to better validation, this are temprory
+        $flag="OK";   // This is the flag and we set it to OK
+        $msg ="";
+        $msg .="<table>";
+        if($payDate==''){    // checking the
+            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_DATE_ERROR')."</td></tr>";
+            $flag="NOTOK";   //setting the flag to error flag.
+        }
+        if($payTime==''){ // checking the
+            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_TIME_ERROR')."</td></tr>";
+            $flag="NOTOK";   //setting the flag to error flag.
+        }
+        if($amount==0){    // checking
+            //$msg .= "<table width=\"800\" height=\"159\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#2089b6\" >";
+            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_AMOUNT_ERROR')."</td></tr>";
+            $flag="NOTOK";   //setting the flag to error flag.
+        }
+        if($bank=='none'){    // checking
+            //$msg .= "<table width=\"800\" height=\"159\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#2089b6\" >";
+            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_BANK_ERROR')."</td></tr>";
+            $flag="NOTOK";   //setting the flag to error flag.
+        }
+        if($flag <>"OK"){
+            $msg .="</table>";
+            echo $msg;
+        }else{
+            //send the valiables to insert to the database
+
+            $this->checkPayment($payDate,$payTime,$amount,$bank);
+        }
+        }
+    }
+
+
+
     //update the payment table for the claimed payment
     function setPayment($pay_id,$amount){
        global $noOrder;
@@ -149,13 +198,7 @@ class Article_cartModelOrderView extends JModelList {
         if(!$resultquery=$db->query())  echo'update decline';
         else {
             // the number of affected rows will help to find out the amount has set for how many ordered item and
-            // whether is any balance
             $noOrder= mysql_affected_rows();
-            //echo 'payment saved';
-           // $query->update('`#__article_cart_payments`');
-           // $query->set("`claim`='1'");
-           // $query->where("`id`='".$pay_id."'");
-            //needs to update the order to be omited from unclaimed payments
             $query="UPDATE `#__article_cart_payments` SET `claim`=1 WHERE `id`='".$pay_id."'";
             $db->setQuery($query);
             if(!$resultquery=$db->query())  echo'claim decline';
@@ -164,12 +207,8 @@ class Article_cartModelOrderView extends JModelList {
                  //calculate the balance of payment
                  $this->setBalance($floatLimit,$noOrder);
                  if(!isset($_POST['useBalance'])){ $this->setBonus($amount);}
-
              }
-
-
         }
-
     }
 
 
@@ -246,7 +285,7 @@ class Article_cartModelOrderView extends JModelList {
             $query->where("`id`='".$user_id."'");
             $db->setQuery($query);
             if(!$resultquery=$db->query()) echo 'error in update';
-            else echo "<table><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_C').' '.$balance2.JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_D')."</td></tr></table>";
+            else echo "<table><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_C').' '.number_format($balance2).JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_D')."</td></tr></table>";
         }
     }
 
@@ -266,7 +305,7 @@ class Article_cartModelOrderView extends JModelList {
             $query->where("`id`='".$user_id."'");
             $db->setQuery($query);
             if(!$resultquery=$db->query()) echo 'error in update';
-            else echo "<table><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_A').' '.$bonus.JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_B')."</td></tr></table>";
+            else echo "<table border=\"none\"><tr><td class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_C').' '.number_format($bonus).' '.JText::_('COM_ARTICLE_CART_PAYMENT_BALANCE_B')."</td></tr></table>";
         }
     }
 
