@@ -52,7 +52,7 @@ class Article_cartModelSetOrder extends JModelList{
             $pageEnd='';
             $page='';
             if(!preg_match("/^[_\.0-9a-zA-Z-]/i", $link))
-                echo "<table><tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_LINK_ERROR')."</td></tr></table>";
+                echo "<table><tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">".JText::_('COM_ARTICLE_CART_ORDERS_LINK_ERROR')."</td></tr></table>";
             else  $this->setRecord($title,$author,$year,$page,$link);
 
         }
@@ -68,26 +68,26 @@ class Article_cartModelSetOrder extends JModelList{
         $msg ="";
         $msg .="<table>";
         if(!preg_match("/^[_\.0-9a-zA-Z-]/i", $title)){    // checking the
-            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_TITLE_ERROR')."</td></tr>";
+            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">".JText::_('COM_ARTICLE_CART_ORDERS_TITLE_ERROR')."</td></tr>";
             $flag="NOTOK";   //setting the flag to error flag.
         }
         if(!preg_match("/^[_\.0-9a-zA-Z-]/i", $author)){ // checking the
-            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_AUTHOR_ERROR')."</td></tr>";
+            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">".JText::_('COM_ARTICLE_CART_ORDERS_AUTHOR_ERROR')."</td></tr>";
             $flag="NOTOK";   //setting the flag to error flag.
         }
         if(!is_numeric($year)){    // checking
             //$msg .= "<table width=\"800\" height=\"159\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#2089b6\" >";
-            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_YEAR_ERROR')."</td></tr>";
+            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">".JText::_('COM_ARTICLE_CART_ORDERS_YEAR_ERROR')."</td></tr>";
             $flag="NOTOK";   //setting the flag to error flag.
         }
         if(!is_numeric($pageStart)|| $pageStart<1 ){    // checking
             //$msg .= "<table width=\"800\" height=\"159\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#2089b6\" >";
-            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_PAGE_START_ERROR')."</td></tr>";
+            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message\" >".JText::_('COM_ARTICLE_CART_ORDERS_PAGE_START_ERROR')."</td></tr>";
             $flag="NOTOK";   //setting the flag to error flag.
         }
         if(!is_numeric($pageEnd)|| $pageEnd<1){    // checking
             //$msg .= "<table width=\"800\" height=\"159\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#2089b6\" >";
-            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">"."* ". JText::_('COM_ARTICLE_CART_ORDERS_PAGE_END_ERROR')."</td></tr>";
+            $msg .="<tr class=\"order_form_error_message_border\" ><td class=\"order_form_error_message \">".JText::_('COM_ARTICLE_CART_ORDERS_PAGE_END_ERROR')."</td></tr>";
             $flag="NOTOK";   //setting the flag to error flag.
         }
         if($flag <>"OK"){
@@ -122,8 +122,68 @@ class Article_cartModelSetOrder extends JModelList{
             return false;
         }else{
             $msgSucc .="<tr><td  class=\"form_massage_payment\" >". JText::_('COM_ARTICLE_CART_ORDERS_SUCCESS_SUBMIT')."</td></tr></table>";
+            $this->emailSite($user_id,$title,$author,$year,$page,$link);
             }
         echo $msgSucc;
+    }
+
+
+    function emailSite($user_id,$title,$author,$year,$page,$link){
+           // multiple recipients
+        $toSite   = 'sadegh_mss58@yahoo.com' . ', '; // note the comma
+        $toSite  .= 'admin@daneshpajo.com'; // note the comma
+        //define the subject of the email
+        $subjectSite = 'Article order buy user #'.$user_id.'';
+        //define the message to be sent. Each line should be separated with \n
+        $messageSite .= "--$mime_boundary\n";
+
+        if(!isset($_POST['submitLink'])){
+
+            $messageSite .= "<html>\n";
+            $messageSite .= "<body style=\"font-family:Verdana, Verdana, Geneva, sans-serif;   color:#003333; bgcolor=#f5f8fa;\">\n";
+            $messageSite .= "<table width=\"809\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\" >";
+            $messageSite .="<tr>";
+            $messageSite .="<th colspan=\"4\" align=\"center\" style=\" font-size:22px;\">Article Order</th>";
+            $messageSite .="</tr>";
+            $messageSite .="<tr>";
+            $messageSite .="<th>Title:</th>";
+            $messageSite .="<td colspan=\"2\">$title</td>";
+            $messageSite .="</tr>";
+            $messageSite .="<tr>";
+            $messageSite .="<th>Author:</th>";
+            $messageSite .="<td colspan=\"2\">$author</td>";
+            $messageSite .="</tr>";
+            $messageSite .="<tr>";
+            $messageSite .="<th>Year:</th>";
+            $messageSite .="<td colspan=\"2\" >$year:</td>";
+            $messageSite .="</tr>";
+            $messageSite .="<tr>";
+            $messageSite .="<th>pages:</th>";
+            $messageSite .="<td colspan=\"2\>$page</td>";
+            $messageSite .="</tr>";
+            $messageSite .="</table>";
+            $messageSite .= "</body>\n";
+            $messageSite .= "</html>\n";
+
+        }else{
+            $messageSite .= 'Link: ';
+            $messageSite .= "$link ";
+        }//end else if
+
+
+        # -=-=-=- FINAL BOUNDARY
+        $messageSite .= "--$mime_boundary--\n\n";
+        // To send HTML mail, the Content-type header must be set
+        $headersSite  = 'MIME-Version: 1.0' . "\r\n";
+        $headersSite .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        // Additional headers
+        $headersSite .= 'From: Daneshpajo <admin@daneshpajo.com>' . "\r\n";
+        //send the email
+        $mail_sentSite = @mail( $toSite, $subjectSite, $messageSite, $headersSite );
+        //if the message is sent successfully print "Mail sent". Otherwise print "Mail failed"
+        //echo $mail_sent ? "Mail sent" : "Mail failed";
+
+
     }
 
 }

@@ -184,8 +184,8 @@ class Article_cartModelOrderView extends JModelList {
     function setPayment($pay_id,$amount){
        global $noOrder;
         //the default price of each item would be 250000, there this shows the payment is for how many items
-        $limit=(int)($amount/250000);
-        $floatLimit=($amount/250000);
+        $limit=(int)($amount/25000);
+        $floatLimit=($amount/25000);
         $user=JFactory::getUser();
         $user_id=$user->id;
         $db=JFactory::getDBO();
@@ -269,8 +269,8 @@ class Article_cartModelOrderView extends JModelList {
 
 
     function setBalance($floatLimit,$noOrder){
-        $balance=($floatLimit-$noOrder)*250000;
-        $balance2=($floatLimit-$noOrder)*250000;
+        $balance=($floatLimit-$noOrder)*25000;
+        $balance2=($floatLimit-$noOrder)*25000;
         if ($balance>0){
             $user=JFactory::getUser();
             $user_id=$user->id;
